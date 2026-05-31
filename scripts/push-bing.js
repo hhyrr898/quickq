@@ -17,7 +17,7 @@ async function readUpdatedUrls() {
 }
 
 async function readAllUrls() {
-  const sitemap = await fs.readFile(path.join(root, "dist", "sitemap.xml"), "utf8");
+  const sitemap = await fs.readFile(path.join(root, "_site", "sitemap.xml"), "utf8");
   return [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
 }
 

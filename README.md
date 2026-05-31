@@ -9,16 +9,16 @@ npm install
 npm run dev
 ```
 
-Build output is written to `dist/`.
+Build output is written to `_site/`.
 
 ## Cloudflare Pages
 
 Use these build settings:
 
 - Build command: `npm run build`
-- Build output directory: `dist`
+- Build output directory: `_site`
 
-The repository includes `wrangler.toml` with `pages_build_output_dir = "dist"`.
+The repository includes `wrangler.toml` with `pages_build_output_dir = "_site"`.
 
 ## Repository Variables And Secrets
 
