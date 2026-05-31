@@ -11,6 +11,15 @@ npm run dev
 
 Build output is written to `dist/`.
 
+## Cloudflare Pages
+
+Use these build settings:
+
+- Build command: `npm run build`
+- Build output directory: `dist`
+
+The repository includes `wrangler.toml` with `pages_build_output_dir = "dist"`.
+
 ## Repository Variables And Secrets
 
 Set these values before enabling the article workflow:
