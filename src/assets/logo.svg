@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="quickq logo">
+  <defs>
+    <linearGradient id="g" x1="10" x2="105" y1="8" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1d6ff2"/>
+      <stop offset=".55" stop-color="#18c6c0"/>
+      <stop offset="1" stop-color="#6edb91"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="32" fill="#102035"/>
+  <path d="M34 62c0-19 12-32 30-32 17 0 30 13 30 31 0 11-5 21-13 26l11 10H76l-6-6a34 34 0 0 1-7 1c-17 0-29-12-29-30Z" fill="url(#g)"/>
+  <path d="M51 60c0-9 6-16 14-16s14 7 14 16-6 16-14 16-14-7-14-16Z" fill="#fff" opacity=".95"/>
+</svg>

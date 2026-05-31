@@ -1,0 +1,111 @@
+---
+layout: base.njk
+title: QuickQ 官方网站下载
+description: quickq 客户端下载、安装准备、设备设置、连接维护与移动端使用资料。
+---
+<section class="hero" id="top">
+  <div class="container hero-grid">
+    <div>
+      <h1>QuickQ官方下载</h1>
+      <p class="lead">围绕 Windows、macOS、Android、iOS 四类设备整理 quickq 下载准备、安装流程、连接维护与日常使用内容，适合新用户快速查阅。</p>
+      <div class="hero-actions">
+        <a class="button" href="/dows.html">进入下载中心</a>
+        <a class="button secondary" href="#latest">查看最新文章</a>
+      </div>
+    </div>
+    <aside class="hero-card" aria-label="quickq 概览">
+      <img src="/assets/quickq-hero.svg" alt="QuickQ 官方网站下载界面展示" loading="lazy">
+    </aside>
+  </div>
+</section>
+
+<section class="section" id="clients">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>QuickQ客户端入口</h2>
+      </div>
+    </div>
+    <div class="grid">
+      <article class="card download-card">
+        <a class="preview-link" href="/blog/quickq-windows-install-guide/">
+          <img src="https://tse-mm.bing.com/th?q=quickq%20Windows%20client" alt="quickq Windows 版下载资料" loading="lazy">
+        </a>
+        <div><h3>Windows 版</h3><p>适合桌面办公、远程访问与多任务使用。</p></div>
+        <a class="button secondary" href="/blog/quickq-windows-install-guide/">查看步骤</a>
+      </article>
+      <article class="card download-card">
+        <a class="preview-link" href="/blog/quickq-macos-install-steps/">
+          <img src="https://tse-mm.bing.com/th?q=quickq%20macOS%20client" alt="quickq macOS 版下载资料" loading="lazy">
+        </a>
+        <div><h3>macOS 版</h3><p>覆盖芯片类型、权限确认与菜单栏使用。</p></div>
+        <a class="button secondary" href="/blog/quickq-macos-install-steps/">查看步骤</a>
+      </article>
+      <article class="card download-card">
+        <a class="preview-link" href="/blog/quickq-android-start/">
+          <img src="https://tse-mm.bing.com/th?q=quickq%20Android%20app" alt="quickq Android 版下载资料" loading="lazy">
+        </a>
+        <div><h3>Android 版</h3><p>适合手机、平板与移动热点场景。</p></div>
+        <a class="button secondary" href="/blog/quickq-android-start/">查看步骤</a>
+      </article>
+      <article class="card download-card">
+        <a class="preview-link" href="/blog/quickq-ios-setup-guide/">
+          <img src="https://tse-mm.bing.com/th?q=quickq%20iOS%20app" alt="quickq iOS 版下载资料" loading="lazy">
+        </a>
+        <div><h3>iOS 版</h3><p>整理 iPhone 与 iPad 的基础配置要点。</p></div>
+        <a class="button secondary" href="/blog/quickq-ios-setup-guide/">查看步骤</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="scenes">
+  <div class="container">
+    <div class="section-head">
+    </div>
+    <div class="grid">
+      {% set cards = [
+        ["安装前检查", "确认系统版本、存储空间与账号状态。"],
+        ["桌面端连接", "梳理 Windows 与 macOS 的常见设置。"],
+        ["移动端准备", "覆盖 Android 与 iOS 的权限确认。"],
+        ["账号安全", "整理登录保护、设备管理与资料同步。"],
+        ["连接维护", "遇到延迟或断开时按步骤检查。"],
+        ["远程办公", "适合跨地点访问办公系统与资料。"],
+        ["学习资料", "适合课程访问、资料查询与协作。"],
+        ["多设备切换", "在手机、平板、电脑间保持一致体验。"]
+      ] %}
+      {% for card in cards %}
+        <article class="card">
+          <h3>{{ card[0] }}</h3>
+          <p>{{ card[1] }}</p>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="latest">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>QuickQ 文章更新</h2>
+      </div>
+    </div>
+    <div class="article-list">
+      {% for post in collections.posts | sortByDateDesc %}
+        {% if loop.index <= 12 %}
+          <article class="article-link">
+            {% if post.data.heroImage %}
+              <a class="preview-link" href="{{ post.url }}">
+                <img class="article-thumb" src="{{ post.data.heroImage }}" alt="{{ post.data.heroAlt or post.data.title }}" loading="lazy">
+              </a>
+            {% endif %}
+            <time datetime="{{ post.date | readableDate }}">{{ post.date | readableDate }}</time>
+            <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+            <p>{{ post.data.description }}</p>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

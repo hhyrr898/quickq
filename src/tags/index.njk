@@ -1,0 +1,21 @@
+---
+layout: base.njk
+title: quickq Tags 内容聚合
+description: quickq 设备、安装、账号、连接与使用场景 Tags 聚合入口。
+permalink: /tags/
+---
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">quickq tags</p>
+    <h1>quickq Tags 内容聚合</h1>
+    <div class="grid">
+      {% for tag in collections.publicTags %}
+        <article class="card">
+          <h2>{{ tag }}</h2>
+          <p>查看 {{ tag }} 相关 quickq 内容。</p>
+          <a class="button secondary" href="/tags/{{ tag | tagSlug }}/">进入聚合页</a>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

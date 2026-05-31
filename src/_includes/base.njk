@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title or site.title }}</title>
+    <meta name="description" content="{{ description or site.description }}">
+    <link rel="icon" href="/favicon.ico" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="QuickQ">
+          <img src="/assets/logo.svg" alt="QuickQ 标识" width="46" height="46">
+          <span>QuickQ</span>
+        </a>
+        <nav class="nav" aria-label="主导航">
+          <a href="/">首页</a>
+          <a href="/dows.html">下载中心</a>
+          <a href="/blog/">博客</a>
+          <a href="/tags/">Tags</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      {{ content | safe }}
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <section>
+          <h2>QuickQ官方下载</h2>
+          <p>整理安装、设备配置、连接维护与移动端使用内容，让不同设备的准备过程更清楚。</p>
+        </section>
+        <nav aria-label="页脚导航">
+          <a href="/">quickq 资源中心</a>
+          <a href="/dows.html">客户端下载</a>
+          <a href="/blog/">使用文章</a>
+          <a href="/sitemap.xml">站点地图</a>
+        </nav>
+      </div>
+    </footer>
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id:"3MA4IsmAqT9obah9",ck:"3MA4IsmAqT9obah9"})</script>
+  </body>
+</html>

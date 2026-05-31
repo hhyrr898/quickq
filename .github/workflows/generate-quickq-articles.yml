@@ -1,0 +1,60 @@
+name: Generate quickq articles
+
+on:
+  schedule:
+    - cron: "30 19 * * *"
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "How many articles to create"
+        required: true
+        default: "1"
+        type: choice
+        options: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+      bing_scope:
+        description: "Submit updated URLs or the full built site"
+        required: true
+        default: "updated"
+        type: choice
+        options: ["updated", "all"]
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - name: Generate article markdown
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GENERATE_COUNT: ${{ github.event.inputs.count || '1' }}
+        run: npm run generate:articles -- --count=${GENERATE_COUNT}
+      - name: Build site
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: npm run build
+      - name: Commit generated articles
+        id: commit
+        run: |
+          if git diff --quiet -- src/blog; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/blog
+          git commit -m "Add generated quickq article"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Submit changed pages to Bing
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          BING_API_KEY: ${{ secrets.BING_API_KEY }}
+        run: npm run push:bing:${{ github.event.inputs.bing_scope || 'updated' }}

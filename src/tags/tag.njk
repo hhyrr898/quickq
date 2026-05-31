@@ -1,0 +1,33 @@
+---
+layout: base.njk
+pagination:
+  data: collections.publicTags
+  size: 1
+  alias: tag
+permalink: /tags/{{ tag | tagSlug }}/
+eleventyComputed:
+  title: "quickq {{ tag }} 内容合集"
+  description: "quickq {{ tag }} 相关文章合集。"
+---
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">quickq tag</p>
+    <h1>quickq {{ tag }} 内容合集</h1>
+    <div class="article-list">
+      {% for post in collections.posts %}
+        {% if post.data.tags and tag in post.data.tags %}
+          <article class="article-link">
+            {% if post.data.heroImage %}
+              <a class="preview-link" href="{{ post.url }}">
+                <img class="article-thumb" src="{{ post.data.heroImage }}" alt="{{ post.data.heroAlt or post.data.title }}" loading="lazy">
+              </a>
+            {% endif %}
+            <time datetime="{{ post.date | readableDate }}">{{ post.date | readableDate }}</time>
+            <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+            <p>{{ post.data.description }}</p>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,36 @@
+---
+layout: base.njk
+title: quickq 使用文章与教程列表
+description: quickq 安装、设备配置、连接维护、账号安全与使用场景文章列表。
+permalink: /blog/
+---
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">quickq blog</p>
+        <h1>quickq 使用文章与教程列表</h1>
+      </div>
+      <p>按时间整理 quickq 相关内容，适合从安装准备到日常使用逐步查阅。</p>
+    </div>
+    <div class="article-list">
+      {% for post in collections.posts %}
+        <article class="article-link">
+          {% if post.data.heroImage %}
+            <a class="preview-link" href="{{ post.url }}">
+              <img class="article-thumb" src="{{ post.data.heroImage }}" alt="{{ post.data.heroAlt or post.data.title }}" loading="lazy">
+            </a>
+          {% endif %}
+          <time datetime="{{ post.date | readableDate }}">{{ post.date | readableDate }}</time>
+          <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+          <p>{{ post.data.description }}</p>
+          <div class="tag-list">
+            {% for tag in post.data.tags | publicTags %}
+              <a href="/tags/{{ tag | tagSlug }}/">{{ tag }}</a>
+            {% endfor %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
