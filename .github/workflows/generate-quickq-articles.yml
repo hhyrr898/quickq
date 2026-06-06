@@ -53,7 +53,7 @@ jobs:
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
       - name: Submit changed pages to Bing
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.changed == 'true' && vars.SITE_URL != '' && secrets.BING_API_KEY != ''
         env:
           SITE_URL: ${{ vars.SITE_URL }}
           BING_API_KEY: ${{ secrets.BING_API_KEY }}

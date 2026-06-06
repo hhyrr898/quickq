@@ -22,8 +22,14 @@ async function readAllUrls() {
 }
 
 async function submit(urls) {
-  if (!apiKey) throw new Error("Set BING_API_KEY before submitting URLs.");
-  if (!siteUrl) throw new Error("Set SITE_URL before submitting URLs.");
+  if (!apiKey) {
+    console.log("Skip Bing submission: BING_API_KEY is not set.");
+    return;
+  }
+  if (!siteUrl) {
+    console.log("Skip Bing submission: SITE_URL is not set.");
+    return;
+  }
   if (!urls.length) {
     console.log("No URLs to submit.");
     return;
