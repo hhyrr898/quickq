@@ -25,7 +25,7 @@ jobs:
       - run: npm install
       - name: Build Eleventy site
         env:
-          SITE_URL: ${{ vars.SITE_URL != '' && vars.SITE_URL || 'https://quickq-7i8.pages.dev' }}
+          SITE_URL: ${{ vars.SITE_URL != '' && vars.SITE_URL || 'https://quickq-cn.com' }}
         run: npm run build
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

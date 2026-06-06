@@ -26,6 +26,6 @@ Set these values before enabling the article workflow:
 
 - `GEMINI_API_KEY`: Gemini API key.
 - `BING_API_KEY`: Bing Webmaster API key.
-- `SITE_URL`: public site origin, such as `https://example.com`.
+- `SITE_URL`: public site origin, such as `https://quickq-cn.com`.
 
 The manual workflow can create 1 to 9 articles in one run. Choose `updated` for new pages only, or `all` for the first full submission.
