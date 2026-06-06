@@ -42,13 +42,13 @@ jobs:
       - name: Commit generated articles
         id: commit
         run: |
-          if git diff --quiet -- src/blog; then
+          git add src/blog
+          if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/blog
           git commit -m "Add generated quickq article"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
