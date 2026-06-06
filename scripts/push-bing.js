@@ -2,8 +2,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 const root = process.cwd();
-const siteUrl = (process.env.SITE_URL || "").replace(/\/$/, "");
-const apiKey = process.env.BING_API_KEY;
+const siteUrl = (process.env.SITE_URL || "").trim().replace(/\/$/, "");
+const apiKey = (process.env.BING_API_KEY || "").trim();
 
 function getMode() {
   const arg = process.argv.find((item) => item.startsWith("--mode="));
@@ -44,9 +44,14 @@ async function submit(urls) {
 
   const text = await response.text();
   if (!response.ok) {
+    if (text.includes("InvalidApiKey")) {
+      throw new Error(
+        `Bing API key is invalid. Regenerate the key in Bing Webmaster Tools (Settings -> API Access), update the BING_API_KEY secret, and ensure ${siteUrl} is verified in Bing. Response: ${text}`
+      );
+    }
     throw new Error(`Bing submission failed: ${response.status} ${text}`);
   }
-  console.log(`Submitted ${urls.length} URL(s) to Bing.`);
+  console.log(`Submitted ${urls.length} URL(s) to Bing for ${siteUrl}.`);
 }
 
 async function main() {
