@@ -37,7 +37,7 @@ jobs:
         run: npm run generate:articles -- --count=${GENERATE_COUNT}
       - name: Build site
         env:
-          SITE_URL: ${{ vars.SITE_URL }}
+          SITE_URL: ${{ vars.SITE_URL != '' && vars.SITE_URL || 'https://quickq-7i8.pages.dev' }}
         run: npm run build
       - name: Commit generated articles
         id: commit
@@ -56,6 +56,6 @@ jobs:
         if: steps.commit.outputs.changed == 'true'
         continue-on-error: true
         env:
-          SITE_URL: ${{ vars.SITE_URL }}
+          SITE_URL: ${{ vars.SITE_URL != '' && vars.SITE_URL || 'https://quickq-7i8.pages.dev' }}
           BING_API_KEY: ${{ secrets.BING_API_KEY }}
         run: npm run push:bing:${{ github.event.inputs.bing_scope || 'updated' }}
