@@ -3,6 +3,7 @@ layout: article.njk
 title: Mac 上装 quickq，权限那几步别跳过
 description: macOS Sonoma 14.5 安装 quickq 2.8.4 的步骤，含 Apple 芯片权限与菜单栏用法。
 date: 2026-05-30
+updated: 2026-06-27
 category: macOS 客户端
 tags: ["macOS客户端", "安装教程", "权限设置"]
 heroImage: "https://tse-mm.bing.com/th?q=quickq%20macOS%20install%20steps"

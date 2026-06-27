@@ -3,6 +3,7 @@ layout: article.njk
 title: Android 手机第一次用 quickq，按这个顺序来
 description: Android 12 以上安装 quickq 2.8.4 的权限设置与首次连接检查。
 date: 2026-05-29
+updated: 2026-06-27
 category: Android 客户端
 tags: ["Android客户端", "移动端", "连接准备"]
 heroImage: "https://tse-mm.bing.com/th?q=quickq%20Android%20start"

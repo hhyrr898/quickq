@@ -5,7 +5,7 @@ layout: base.njk
   <article class="article-page">
     <p class="eyebrow">{{ category or "使用资料" }}</p>
     <h1>{{ title }}</h1>
-    <p class="article-meta">{{ page.date | readableDate }} · quickq官方</p>
+    <p class="article-meta">{{ page.date | readableDate }} · QuickQ 使用资料</p>
     {% if heroImage %}
       <img class="article-hero" src="{{ heroImage }}" alt="{{ heroAlt or title }}" loading="lazy">
     {% endif %}
@@ -21,6 +21,52 @@ layout: base.njk
       </section>
     {% endif %}
   </article>
+  <script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "datePublished": page.date | readableDate,
+  "dateModified": updated or (page.date | readableDate),
+  "author": {
+    "@type": "Organization",
+    "name": site.author
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": site.name,
+    "url": site.url
+  },
+  "mainEntityOfPage": site.url + page.url
+} | dump | safe }}
+  </script>
+  <script type="application/ld+json">
+{{ {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "首页",
+      "item": site.url + "/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "博客",
+      "item": site.url + "/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": title,
+      "item": site.url + page.url
+    }
+  ]
+} | dump | safe }}
+  </script>
   <aside class="side-panel">
     <h2>相关入口</h2>
     <a href="/dows.html">客户端下载</a>

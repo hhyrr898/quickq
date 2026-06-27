@@ -3,6 +3,7 @@ layout: article.njk
 title: quickq Windows 版装完就能连，我踩过的坑都写这儿了
 description: Windows 10/11 安装 quickq 客户端 2.8.4 的实操步骤，含首次登录与连接确认。
 date: 2026-05-31
+updated: 2026-06-27
 category: Windows 客户端
 tags: ["Windows客户端", "安装教程", "连接准备"]
 heroImage: "https://tse-mm.bing.com/th?q=quickq%20Windows%20install%20guide"

@@ -3,6 +3,7 @@ layout: article.njk
 title: iPhone 装完 quickq 后，这几项设置值得改一下
 description: iOS 17.5 配置 quickq 2.8.4 的实操步骤，覆盖 iPhone 与 iPad 首次连接。
 date: 2026-05-28
+updated: 2026-06-27
 category: iOS 客户端
 tags: ["iOS客户端", "移动端", "日常使用"]
 heroImage: "https://tse-mm.bing.com/th?q=quickq%20iOS%20setup%20guide"
