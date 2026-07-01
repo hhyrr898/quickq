@@ -136,6 +136,14 @@ export default function (eleventyConfig) {
     return [...pillars, ...featured].slice(0, 8);
   });
 
+  eleventyConfig.addCollection("recentGeneratedPosts", (collectionApi) => {
+    return collectionApi
+      .getFilteredByGlob("src/blog/*.md")
+      .filter((item) => item.data.generated === true)
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 6);
+  });
+
   eleventyConfig.addCollection("publicTags", (collectionApi) => {
     const tags = new Set();
     collectionApi
