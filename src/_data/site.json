@@ -1,0 +1,13 @@
+{
+  "name": "QuickQ",
+  "brand": "QuickQ 中文资料站",
+  "title": "QuickQ下载与安装使用指南",
+  "description": "整理 quickq Windows、macOS、Android、iOS 客户端下载、安装准备、权限配置、连接维护与日常使用资料。",
+  "keywords": "QuickQ,quickq下载,quickq客户端,QuickQ教程,QuickQ安装,QuickQ连接",
+  "url": "https://quickq-cn.com",
+  "author": "quickq Resource Studio",
+  "locale": "zh_CN",
+  "ogImage": "/assets/quickq-hero.svg",
+  "assetVersion": "1",
+  "laId": "3MA4IsmAqT9obah9"
+}

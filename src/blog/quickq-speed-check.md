@@ -5,8 +5,9 @@ description: quickq 2.8.4 连接速度检查顺序与日常维护习惯。
 date: 2026-05-21
 category: 连接维护
 tags: ["连接维护", "使用技巧", "桌面端"]
-heroImage: "https://tse-mm.bing.com/th?q=quickq%20speed%20check"
+heroImage: "/static/images/photo-1581092580497-e0d23cbdf1dc.jpg"
 heroAlt: "quickq 连接速度检查"
+featured: true
 ---
 
 「变慢」有时是错觉——标签页开太多、网盘在同步，页面卡顿跟 quickq 没关系。我测试时会先关干扰项，再计时打开同一个网页，对比心里有数。
@@ -39,7 +40,7 @@ heroAlt: "quickq 连接速度检查"
 
 客户端保持 2.8.4，一个月重启一次路由器和电脑，系统时间用自动同步。
 
-![quickq 连接速度检查](https://tse-mm.bing.com/th?q=quickq%20speed%20test%20check)
+![quickq 连接速度检查](/static/images/photo-1520607162513-77705c0f0d4a.jpg)
 
 ## 常见问题
 

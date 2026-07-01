@@ -6,8 +6,9 @@ date: 2026-05-28
 updated: 2026-06-27
 category: iOS 客户端
 tags: ["iOS客户端", "移动端", "日常使用"]
-heroImage: "https://tse-mm.bing.com/th?q=quickq%20iOS%20setup%20guide"
+heroImage: "/static/images/photo-1581092160607-ee22621dd758.jpg"
 heroAlt: "quickq iOS 配置指南"
+featured: true
 ---
 
 iOS 对 VPN 类应用管得严，弹窗多但说明也清楚。我测试时在 iPhone 15（iOS 17.5）上装 quickq 2.8.4，第一次弹了三个确认框，全点允许就过了。iPad 横屏用体验更好，分屏查资料很方便。
@@ -34,7 +35,7 @@ iOS 对 VPN 类应用管得严，弹窗多但说明也清楚。我测试时在 i
 
 Safari 打开常用页面，加载正常就完成。
 
-![quickq iOS 配置页面](https://tse-mm.bing.com/th?q=quickq%20iOS%20configuration)
+![quickq iOS 配置页面](/static/images/photo-1527689368864-3a821dbccc34.jpg)
 
 ## 日常小习惯
 

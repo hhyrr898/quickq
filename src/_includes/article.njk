@@ -7,7 +7,7 @@ layout: base.njk
     <h1>{{ title }}</h1>
     <p class="article-meta">{{ page.date | readableDate }} · QuickQ 使用资料</p>
     {% if heroImage %}
-      <img class="article-hero" src="{{ heroImage }}" alt="{{ heroAlt or title }}" loading="lazy">
+      <img class="article-hero" src="{{ heroImage | assetUrl }}" alt="{{ heroAlt or title }}" loading="lazy">
     {% endif %}
     {{ content | safe }}
     {% if videoTitle %}
@@ -15,7 +15,7 @@ layout: base.njk
         <h2 id="video-title">{{ videoTitle }}</h2>
         <p>{{ videoDescription }}</p>
         <div class="video-frame">
-          <img src="{{ videoPoster }}" alt="{{ videoTitle }} 视频画面" loading="lazy">
+          <img src="{{ videoPoster | assetUrl }}" alt="{{ videoTitle }} 视频画面" loading="lazy">
           <span>视频安装教程</span>
         </div>
       </section>
@@ -71,7 +71,7 @@ layout: base.njk
     <h2>相关入口</h2>
     <a href="/dows.html">客户端下载</a>
     <a href="/blog/">全部文章</a>
-    <a href="/tags/">Tags 聚合</a>
+    <a href="/about/">关于本站</a>
     {% set cleanTags = tags | publicTags %}
     {% if cleanTags.length %}
       <h2>Tags</h2>

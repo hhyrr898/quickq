@@ -18,6 +18,10 @@ on:
         type: choice
         options: ["updated", "all"]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+  TZ: "Asia/Shanghai"
+
 permissions:
   contents: write
 
@@ -26,32 +30,58 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+          cache: npm
       - run: npm install
       - name: Generate article markdown
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GENERATE_COUNT: ${{ github.event.inputs.count || '1' }}
         run: npm run generate:articles -- --count=${GENERATE_COUNT}
-      - name: Build site
-        env:
-          SITE_URL: ${{ vars.SITE_URL != '' && vars.SITE_URL || 'https://quickq-cn.com' }}
-        run: npm run build
+      - name: Post-process articles
+        run: npm run postprocess
       - name: Commit generated articles
         id: commit
         run: |
-          git add src/blog
+          git add src/blog src/keywords.json src/index.njk src/download.njk
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Add generated quickq article"
+          git commit -m "Add generated quickq article with internal links"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Build site
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          BING_SITE_AUTH: ${{ secrets.BING_SITE_AUTH }}
+        run: |
+          if [ -n "$INDEXNOW_KEY" ]; then
+            printf '%s' "$INDEXNOW_KEY" > "./src/${INDEXNOW_KEY}.txt"
+          fi
+          if [ -n "$BING_SITE_AUTH" ]; then
+            printf '<?xml version="1.0"?>\n<users>\n  <user>%s</user>\n</users>\n' "$BING_SITE_AUTH" > ./src/BingSiteAuth.xml
+          fi
+          npm run build
+          if [ -n "$INDEXNOW_KEY" ]; then
+            printf '%s' "$INDEXNOW_KEY" > "./_site/${INDEXNOW_KEY}.txt"
+          fi
+          if [ -n "$BING_SITE_AUTH" ] && [ -f ./src/BingSiteAuth.xml ]; then
+            cp ./src/BingSiteAuth.xml ./_site/BingSiteAuth.xml
+          fi
+      - name: IndexNow push
+        if: steps.commit.outputs.changed == 'true'
+        continue-on-error: true
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          BING_DOMAIN: quickq-cn.com
+        run: node tools/bing-instant-push.js
       - name: Submit changed pages to Bing
         if: steps.commit.outputs.changed == 'true'
         continue-on-error: true

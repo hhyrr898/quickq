@@ -4,11 +4,17 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "eleventy --serve",
-    "build": "eleventy",
+    "build": "node ./node_modules/@11ty/eleventy/cmd.cjs",
+    "dev": "node ./node_modules/@11ty/eleventy/cmd.cjs --serve",
     "generate:articles": "node scripts/generate-articles.js",
+    "mark:generated": "node tools/mark-generated.js",
+    "mark:pillars": "node tools/mark-pillars-featured.js",
+    "fix:bing-images": "node tools/fix-bing-images.js",
+    "fix:links": "node tools/add-internal-links.js",
+    "postprocess": "npm run mark:generated && npm run mark:pillars && npm run fix:bing-images && npm run fix:links",
     "push:bing:updated": "node scripts/push-bing.js --mode updated",
-    "push:bing:all": "node scripts/push-bing.js --mode all"
+    "push:bing:all": "node scripts/push-bing.js --mode all",
+    "bing:indexnow": "node tools/bing-instant-push.js"
   },
   "dependencies": {
     "@11ty/eleventy": "latest",

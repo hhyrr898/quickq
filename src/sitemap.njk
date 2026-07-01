@@ -4,12 +4,30 @@ eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{% for item in collections.all %}
-{% if item.url and item.url != "/sitemap.xml" and not item.data.noindex %}
   <url>
-    <loc>{{ site.url }}{{ item.url }}</loc>
-    <lastmod>{{ item.date | readableDate }}</lastmod>
+    <loc>{{ site.url }}/</loc>
+    {% if collections.indexablePosts.length %}
+    <lastmod>{{ collections.indexablePosts[0].date | htmlDateString }}</lastmod>
+    {% endif %}
   </url>
-{% endif %}
+  <url>
+    <loc>{{ site.url }}/blog/</loc>
+    {% if collections.indexablePosts.length %}
+    <lastmod>{{ collections.indexablePosts[0].date | htmlDateString }}</lastmod>
+    {% endif %}
+  </url>
+  <url>
+    <loc>{{ site.url }}/download.html</loc>
+    <lastmod>{% if collections.indexablePosts.length %}{{ collections.indexablePosts[0].date | htmlDateString }}{% else %}2026-06-30{% endif %}</lastmod>
+  </url>
+  <url>
+    <loc>{{ site.url }}/about/</loc>
+    <lastmod>2026-06-30</lastmod>
+  </url>
+{% for post in collections.indexablePosts %}
+  <url>
+    <loc>{{ site.url }}{{ post.url }}</loc>
+    <lastmod>{{ post.date | htmlDateString }}</lastmod>
+  </url>
 {% endfor %}
 </urlset>

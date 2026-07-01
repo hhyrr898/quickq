@@ -5,8 +5,9 @@ description: quickq 多设备登录命名、同步检查与安全退出的实操
 date: 2026-05-25
 category: 多设备使用
 tags: ["多设备", "账号安全", "资料同步"]
-heroImage: "https://tse-mm.bing.com/th?q=quickq%20multi%20device%20sync"
+heroImage: "/static/images/photo-1454165804606-c3d57bc86b40.jpg"
 heroAlt: "quickq 多设备同步说明"
+featured: true
 ---
 
 三台设备都叫「Windows」的时候，设备管理页简直没法看。我给自己的命名是「书房台式」「公司笔电」「主力安卓」，退旧机一眼就能点对。
@@ -39,7 +40,7 @@ heroAlt: "quickq 多设备同步说明"
 
 旧机先退出 → 新机登录 → 确认列表里只剩新机在线。
 
-![quickq 多设备使用](https://tse-mm.bing.com/th?q=quickq%20multiple%20devices)
+![quickq 多设备使用](/static/images/photo-1573166364524-d9dbfd8bbf83.jpg)
 
 ## 常见问题
 

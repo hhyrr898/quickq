@@ -6,8 +6,9 @@ date: 2026-05-29
 updated: 2026-06-27
 category: Android 客户端
 tags: ["Android客户端", "移动端", "连接准备"]
-heroImage: "https://tse-mm.bing.com/th?q=quickq%20Android%20start"
+heroImage: "/static/images/photo-1454165804606-c3d57bc86b40.jpg"
 heroAlt: "quickq Android 使用入门"
+featured: true
 ---
 
 安卓机型多，后台策略也各玩各的。我测试时用小米 14（HyperOS 1.0）和三星 S23（One UI 6.1）各装了一遍 quickq 2.8.4，发现省电模式是头号杀手——开着它，锁屏两分钟就断。
@@ -16,7 +17,7 @@ heroAlt: "quickq Android 使用入门"
 
 系统 Android 12 以上比较稳，存储留 100MB。下载用 Wi-Fi，移动网络也行但别在电梯里下，容易断包。
 
-![quickq Android 手机使用](https://tse-mm.bing.com/th?q=quickq%20Android%20mobile%20app)
+![quickq Android 手机使用](/static/images/photo-1508873535684-277a3cbcc4e8.jpg)
 
 ## 操作步骤
 

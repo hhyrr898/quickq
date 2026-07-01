@@ -5,6 +5,9 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 permissions:
   contents: read
   pages: write
@@ -21,12 +24,28 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
+          cache: npm
       - run: npm install
       - name: Build Eleventy site
         env:
           SITE_URL: ${{ vars.SITE_URL != '' && vars.SITE_URL || 'https://quickq-cn.com' }}
-        run: npm run build
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          BING_SITE_AUTH: ${{ secrets.BING_SITE_AUTH }}
+        run: |
+          if [ -n "$INDEXNOW_KEY" ]; then
+            printf '%s' "$INDEXNOW_KEY" > "./src/${INDEXNOW_KEY}.txt"
+          fi
+          if [ -n "$BING_SITE_AUTH" ]; then
+            printf '<?xml version="1.0"?>\n<users>\n  <user>%s</user>\n</users>\n' "$BING_SITE_AUTH" > ./src/BingSiteAuth.xml
+          fi
+          npm run build
+          if [ -n "$INDEXNOW_KEY" ]; then
+            printf '%s' "$INDEXNOW_KEY" > "./_site/${INDEXNOW_KEY}.txt"
+          fi
+          if [ -n "$BING_SITE_AUTH" ] && [ -f ./src/BingSiteAuth.xml ]; then
+            cp ./src/BingSiteAuth.xml ./_site/BingSiteAuth.xml
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -5,8 +5,9 @@ description: quickq 2.8.4 连接波动时的网络、设备、线路三步排查
 date: 2026-05-26
 category: 连接维护
 tags: ["连接维护", "网络检查", "使用技巧"]
-heroImage: "https://tse-mm.bing.com/th?q=quickq%20connection%20maintenance"
+heroImage: "/static/images/photo-1639762681485-074b7f938ba0.jpg"
 heroAlt: "quickq 连接维护方法"
+featured: true
 ---
 
 连接不稳的时候，最忌疯狂换设置。我测试时发现，八成情况先查本地网络就能定位——路由器重启一下，或者手机开热点对比，往往几分钟就出结果。
@@ -29,7 +30,7 @@ heroAlt: "quickq 连接维护方法"
 
 写下时间、设备、网络类型（家里 Wi-Fi / 公司 / 4G）、客户端版本 2.8.4。下次同类问题好对照。
 
-![quickq 连接状态检查](https://tse-mm.bing.com/th?q=quickq%20connection%20status%20check)
+![quickq 连接状态检查](/static/images/photo-1560179707-f14e90ef3623.jpg)
 
 ## 什么时候不用动客户端
 

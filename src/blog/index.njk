@@ -11,25 +11,38 @@ permalink: /blog/
         <p class="eyebrow">quickq blog</p>
         <h1>quickq 使用文章与教程列表</h1>
       </div>
-      <p>按时间整理 quickq 相关内容，适合从安装准备到日常使用逐步查阅。</p>
+      <p>下方「核心教程」优先收录；带时间戳的参考文默认不进入搜索引擎索引。</p>
     </div>
+    <h2 style="margin-bottom:20px;">核心教程（可索引）</h2>
     <div class="article-list">
-      {% for post in collections.posts %}
+      {% for post in collections.indexablePosts %}
         <article class="article-link">
           {% if post.data.heroImage %}
             <a class="preview-link" href="{{ post.url }}">
-              <img class="article-thumb" src="{{ post.data.heroImage }}" alt="{{ post.data.heroAlt or post.data.title }}" loading="lazy">
+              <img class="article-thumb" src="{{ post.data.heroImage | assetUrl }}" alt="{{ post.data.heroAlt or post.data.title }}" loading="lazy">
             </a>
           {% endif %}
           <time datetime="{{ post.date | readableDate }}">{{ post.date | readableDate }}</time>
           <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
           <p>{{ post.data.description }}</p>
-          <div class="tag-list">
-            {% for tag in post.data.tags | publicTags %}
-              <a href="/tags/{{ tag | tagSlug }}/">{{ tag }}</a>
-            {% endfor %}
-          </div>
         </article>
+      {% endfor %}
+    </div>
+    <h2 style="margin:48px 0 20px;">参考文章（默认 noindex）</h2>
+    <div class="article-list">
+      {% for post in collections.posts %}
+        {% if post.data.generated %}
+        <article class="article-link">
+          {% if post.data.heroImage %}
+            <a class="preview-link" href="{{ post.url }}">
+              <img class="article-thumb" src="{{ post.data.heroImage | assetUrl }}" alt="{{ post.data.heroAlt or post.data.title }}" loading="lazy">
+            </a>
+          {% endif %}
+          <time datetime="{{ post.date | readableDate }}">{{ post.date | readableDate }}</time>
+          <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+          <p>{{ post.data.description }}</p>
+        </article>
+        {% endif %}
       {% endfor %}
     </div>
   </div>

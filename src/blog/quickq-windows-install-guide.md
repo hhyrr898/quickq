@@ -6,11 +6,12 @@ date: 2026-05-31
 updated: 2026-06-27
 category: Windows 客户端
 tags: ["Windows客户端", "安装教程", "连接准备"]
-heroImage: "https://tse-mm.bing.com/th?q=quickq%20Windows%20install%20guide"
+heroImage: "/static/images/photo-1559136555-9303baea8ebd.jpg"
 heroAlt: "quickq Windows 安装教程界面"
 videoTitle: "quickq Windows 安装教程与连接准备"
 videoDescription: "本教程按安装前检查、安装过程、首次登录、连接确认四段展示 quickq Windows 版准备流程。"
-videoPoster: "https://tse-mm.bing.com/th?q=quickq%20Windows%20video%20tutorial"
+videoPoster: "/static/images/photo-1451187580459-43490279c0fa.jpg"
+featured: true
 ---
 
 上周帮同事装 quickq Windows 客户端 2.8.4（2026年6月更新），他差点在系统弹窗那一步直接关掉。其实 Windows 10 和 Windows 11 都能用，但装之前花两分钟检查，后面会省不少时间。
@@ -19,7 +20,7 @@ videoPoster: "https://tse-mm.bing.com/th?q=quickq%20Windows%20video%20tutorial"
 
 系统版本：设置 → 系统 → 关于，确认是 Windows 10 22H2 或 Windows 11 23H2 以上。存储空间至少留 200MB。网络方面，我测试时发现开着迅雷或网盘同步时，首次连接经常慢半拍，建议先暂停。
 
-![quickq Windows 安装准备](https://tse-mm.bing.com/th?q=quickq%20Windows%20setup%20screen)
+![quickq Windows 安装准备](/static/images/photo-1526374965328-7f61d4dc18c5.jpg)
 
 ## 安装步骤（教程型）
 

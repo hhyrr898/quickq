@@ -5,8 +5,9 @@ description: quickq 账号密码、设备退出与权限设置的日常安全习
 date: 2026-05-24
 category: 账号管理
 tags: ["账号安全", "隐私保护", "设备管理"]
-heroImage: "https://tse-mm.bing.com/th?q=quickq%20account%20safety"
+heroImage: "/static/images/photo-1573164713714-d95e436ab8d6.jpg"
 heroAlt: "quickq 账号安全方法"
+featured: true
 ---
 
 账号安全没什么高深的，就是别偷懒。上周我帮朋友查设备列表，发现他三个月没退过网吧那台旧登录，自己都不知道还在线。
@@ -33,7 +34,7 @@ heroAlt: "quickq 账号安全方法"
 
 能开就开。密码泄露了，没验证码也登不进去。
 
-![quickq 账号安全设置](https://tse-mm.bing.com/th?q=quickq%20account%20security%20settings)
+![quickq 账号安全设置](/static/images/photo-1568605117036-5fe5e7bab0b7.jpg)
 
 ## 我平时的习惯
 
