@@ -1,10 +1,12 @@
 import { GoogleGenAI } from "@google/genai";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { countChineseChars, getCharLimits, shortenBodyIfNeeded } from "./article-validation.js";
 
 const root = process.cwd();
 const blogDir = path.join(root, "src", "blog");
 const outputFile = path.join(root, ".generated-urls.json");
+const MAX_ATTEMPTS = 5;
 
 const bannedPatterns = [
   /seo/gi,
@@ -52,7 +54,7 @@ const articleStyles = [
   {
     id: "tutorial",
     name: "教程型",
-    length: "800-1500字",
+    length: "750-2200字",
     structure: [
       "开头用一两句话交代场景，别写空话套话。",
       "正文用 h2/h3 分节，至少写 3 个带序号的具体操作步骤。",
@@ -63,7 +65,7 @@ const articleStyles = [
   {
     id: "review",
     name: "评测型",
-    length: "800-1500字",
+    length: "750-2200字",
     structure: [
       "开头说明你在什么环境下测的（系统版本、quickq 版本）。",
       "选 3 个维度打分（如易用性、稳定性、移动端体验），每个维度用 h3 写分数和理由。",
@@ -73,7 +75,7 @@ const articleStyles = [
   {
     id: "faq",
     name: "问答型",
-    length: "800-1500字",
+    length: "750-2200字",
     structure: [
       "开头 2-3 句说明这篇文章解决什么问题。",
       "正文写 5 个 FAQ，每个用 h3 做问句标题，答案要具体、能照着做。",
@@ -83,7 +85,7 @@ const articleStyles = [
   {
     id: "brief",
     name: "快讯型",
-    length: "300-600字",
+    length: "350-900字",
     structure: [
       "短平快，像博客快讯，不要铺垫太长。",
       "必须写清楚一个具体版本号或日期（如 quickq 2.8.4 或 2026-06-20）。",
@@ -142,10 +144,6 @@ function pickStyle(seed) {
   return articleStyles[seed % articleStyles.length];
 }
 
-function countChineseChars(text) {
-  return (text.match(/[\u4e00-\u9fa5]/g) || []).length;
-}
-
 function hasVersionOrDate(text) {
   return (
     /\d+\.\d+(\.\d+)?/.test(text) ||
@@ -181,11 +179,12 @@ function isTitleAcceptable(title) {
 function validateArticle({ title, body, style }) {
   const issues = [];
   const charCount = countChineseChars(body);
-  const minChars = style.id === "brief" ? 280 : 750;
-  const maxChars = style.id === "brief" ? 650 : 1550;
+  const { min: minChars, max: maxChars } = getCharLimits(style);
 
   if (!isTitleAcceptable(title)) issues.push("标题太官腔或过长，应像博客标题");
-  if (charCount < minChars || charCount > maxChars) issues.push(`正文字数 ${charCount}，应在 ${minChars}-${maxChars} 之间`);
+  if (charCount < minChars || charCount > maxChars) {
+    issues.push(`正文字数 ${charCount}，应在 ${minChars}-${maxChars} 之间`);
+  }
   if (!hasVersionOrDate(body)) issues.push("正文缺少具体版本号或日期");
   if (!hasOperationSteps(body)) issues.push("正文缺少至少 3 个操作步骤");
   if (!hasFaqSection(body)) issues.push("缺少「## 常见问题」小节");
@@ -202,6 +201,7 @@ function frontMatter(data) {
 }
 
 function buildPrompt({ topic, style, firstPersonHint }) {
+  const { min: minChars, max: maxChars } = getCharLimits(style);
   return [
     "你是技术博客的兼职作者，给普通用户写 quickq 使用实操帖，不是写白皮书，也不是产品宣传稿。",
     "写一篇关于 quickq 的原创简体中文 markdown 文章。",
@@ -212,12 +212,13 @@ function buildPrompt({ topic, style, firstPersonHint }) {
     "- 像博客标题，口语化一点，例如「quickq Windows 连不上？我试了这三个办法」。",
     "- 禁止：白皮书、完整指南、全面指南、深度解析、全攻略 这类官腔标题。",
     "",
-    `【结构】本次用${style.name}（${style.length}）`,
+    `【结构】本次用${style.name}（${style.length}，正文中文字数必须 ${minChars}-${maxChars} 字）`,
     ...style.structure.map((line) => `- ${line}`),
     "",
     "【硬性要求】",
     "- 正文只用 h2/h3，不要 h1。",
     "- 必须包含：①一个具体版本号或日期 ②至少 3 步操作步骤 ③「## 常见问题」小节。",
+    `- 正文中文字数（仅计汉字）必须落在 ${minChars}-${maxChars}，超出会被退回重写。`,
     `- 至少写一段第一人称，可参考：「${firstPersonHint}…」`,
     "- 段落长短错落，不要每段都 3-4 句一样长。",
     "- 禁止用词：综上所述、毋庸置疑、在当今数字化时代、业界领先、全方位、深度融合、极致。",
@@ -242,11 +243,14 @@ async function createArticle(ai, index) {
   const topic = tags.join("、");
   const firstPersonHint = firstPersonHints[seed % firstPersonHints.length];
   const prompt = buildPrompt({ topic, style, firstPersonHint });
+  const { max: maxChars } = getCharLimits(style);
 
   let parsed = null;
   let lastIssues = [];
+  let title = "";
+  let body = "";
 
-  for (let attempt = 0; attempt < 3; attempt += 1) {
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt += 1) {
     const retryNote =
       attempt > 0 ? `\n\n上次生成不合格，请修正：${lastIssues.join("；")}。重新生成完整 JSON。` : "";
     const result = await ai.models.generateContent({
@@ -256,35 +260,49 @@ async function createArticle(ai, index) {
     const raw = result.text.replace(/^```json\s*|```$/g, "").trim();
     parsed = JSON.parse(raw);
 
-    const title = cleanText(parsed.title).startsWith("quickq")
+    title = cleanText(parsed.title).startsWith("quickq")
       ? cleanText(parsed.title)
       : `quickq ${cleanText(parsed.title)}`;
-    const body = cleanText(parsed.body);
+    body = cleanText(parsed.body);
     lastIssues = validateArticle({ title, body, style });
 
-    if (lastIssues.length === 0) {
-      const description = cleanText(parsed.description).slice(0, 120);
-      const category = cleanText(parsed.category || tags[0]);
-      const slug = `${slugify(title)}-${Date.now()}-${index}`;
+    if (lastIssues.length === 0) break;
 
-      return {
-        slug,
-        url: `/blog/${slug}/`,
-        content: frontMatter({
-          title,
-          description,
-          date,
-          category,
-          tags,
-          heroImage: `/static/images/photo-1486406146926-c627a92ad1ab.jpg`,
-          heroAlt: `${title} 配图`,
-          body
-        })
-      };
+    const onlyTooLong =
+      lastIssues.length === 1 && lastIssues[0].includes("正文字数") && countChineseChars(body) > maxChars;
+    if (onlyTooLong && attempt >= MAX_ATTEMPTS - 2) {
+      try {
+        body = cleanText(await shortenBodyIfNeeded(ai, body, maxChars));
+        lastIssues = validateArticle({ title, body, style });
+        if (lastIssues.length === 0) break;
+      } catch (error) {
+        console.warn("正文压缩失败，继续重试:", error.message);
+      }
     }
   }
 
-  throw new Error(`Article validation failed after 3 attempts: ${lastIssues.join("；")}`);
+  if (lastIssues.length > 0) {
+    throw new Error(`Article validation failed after ${MAX_ATTEMPTS} attempts: ${lastIssues.join("；")}`);
+  }
+
+  const description = cleanText(parsed.description).slice(0, 120);
+  const category = cleanText(parsed.category || tags[0]);
+  const slug = `${slugify(title)}-${Date.now()}-${index}`;
+
+  return {
+    slug,
+    url: `/blog/${slug}/`,
+    content: frontMatter({
+      title,
+      description,
+      date,
+      category,
+      tags,
+      heroImage: `/static/images/photo-1486406146926-c627a92ad1ab.jpg`,
+      heroAlt: `${title} 配图`,
+      body
+    })
+  };
 }
 
 async function main() {
