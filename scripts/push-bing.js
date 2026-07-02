@@ -45,9 +45,17 @@ async function submit(urls) {
   const text = await response.text();
   if (!response.ok) {
     if (text.includes("InvalidApiKey")) {
-      throw new Error(
-        `Bing API key is invalid. Regenerate the key in Bing Webmaster Tools (Settings -> API Access), update the BING_API_KEY secret, and ensure ${siteUrl} is verified in Bing. Response: ${text}`
+      console.warn(
+        [
+          "⚠️ Bing SubmitUrlbatch 跳过：BING_API_KEY 无效或未与站点绑定。",
+          `   1. 打开 https://www.bing.com/webmasters 确认 ${siteUrl} 已验证`,
+          "   2. Settings → API Access → 生成新 API Key",
+          "   3. 更新 GitHub Secret：BING_API_KEY",
+          "   4. IndexNow 推送（INDEXNOW_KEY）不受影响，可单独使用",
+          `   Response: ${text}`
+        ].join("\n")
       );
+      return;
     }
     throw new Error(`Bing submission failed: ${response.status} ${text}`);
   }
