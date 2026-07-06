@@ -25,7 +25,7 @@
 | 速度检查 | `/blog/quickq-speed-check/` |
 | 学习场景 | `/blog/quickq-study-scenario/` |
 | 出行网络 | `/blog/quickq-travel-network/` |
-| 下载中心 | `/dows.html` |
+| 下载中心 | `/dows/` |
 | 首页 | `/` |
 
 ## 索引策略

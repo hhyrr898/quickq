@@ -27,7 +27,7 @@ function toPublicUrl(relativePath) {
 
 function isIndexableUrl(url) {
   const pathname = new URL(url).pathname;
-  if (pathname === "/" || pathname === "/blog/" || pathname === "/about/" || pathname === "/download.html") return true;
+  if (pathname === "/" || pathname === "/blog/" || pathname === "/about/" || pathname === "/download/") return true;
   return /^\/blog\/quickq-[a-z0-9-]+\/$/.test(pathname);
 }
 

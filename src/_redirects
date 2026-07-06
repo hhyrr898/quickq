@@ -1,0 +1,7 @@
+# Legacy .html URLs → canonical paths
+/download.html /download/ 301
+/dows.html /dows/ 301
+
+# Apex canonical host (fix www duplicate indexing)
+https://www.quickq-cn.com/* https://quickq-cn.com/:splat 301
+http://www.quickq-cn.com/* https://quickq-cn.com/:splat 301
