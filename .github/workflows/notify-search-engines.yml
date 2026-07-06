@@ -1,0 +1,42 @@
+name: Notify search engines
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm install
+      - name: Build site
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+        run: |
+          if [ -n "$INDEXNOW_KEY" ]; then
+            printf '%s' "$INDEXNOW_KEY" > "./src/${INDEXNOW_KEY}.txt"
+          fi
+          npm run build
+      - name: Wait for Cloudflare Pages deploy
+        run: sleep 90
+      - name: IndexNow push
+        continue-on-error: true
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+          BING_DOMAIN: quickq-cn.com
+        run: node tools/bing-instant-push.js
+      - name: Submit sitemap URLs to Bing
+        continue-on-error: true
+        env:
+          SITE_URL: ${{ vars.SITE_URL != '' && vars.SITE_URL || 'https://quickq-cn.com' }}
+          BING_API_KEY: ${{ secrets.BING_API_KEY }}
+        run: npm run push:bing:all
