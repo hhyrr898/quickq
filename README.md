@@ -44,20 +44,14 @@ The manual workflow can create 1 to 9 articles in one run. Choose `updated` for 
 
 也可在 GitHub Actions 中手动运行 **Notify search engines**。
 
-## Cloudflare www 重定向（GSC canonical 修复）
+## Cloudflare www 重定向
 
-`_redirects` 已处理 `/download.html`、`/dows.html` 旧链接。`www` → 主域需在 Cloudflare 控制台补充一条规则：
+仓库根目录 `functions/_middleware.js` 会在 Cloudflare Pages 边缘把 `www.quickq-cn.com` **301** 到 `https://quickq-cn.com`（保留路径与查询参数）。推送到 `main` 后随 Pages 自动部署生效，一般无需再在控制台手动配规则。
 
-1. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com)，选择 `quickq-cn.com`
-2. 进入 **规则 → 重定向规则 → 创建规则**
-3. 配置：
-   - **规则名称**：`www to apex`
-   - **表达式**：`(http.host eq "www.quickq-cn.com")`
-   - **类型**：动态重定向
-   - **URL**：`concat("https://quickq-cn.com", http.request.uri.path)`
-   - **状态码**：`301`
-4. 保存并部署
+若 www 未走 Pages（例如 DNS 指向其他服务），再在 Cloudflare **规则 → 重定向规则** 补一条：
 
-同时确认 **Workers & Pages → quickq 项目 → 自定义域** 中 `quickq-cn.com` 与 `www.quickq-cn.com` 均已绑定。
+- **表达式**：`(http.host eq "www.quickq-cn.com")`
+- **目标**：`concat("https://quickq-cn.com", http.request.uri.path)`
+- **状态码**：`301`
 
 完成后在 Google Search Console 对「重复网页，Google 选择了不同的规范网址」点 **验证修复**。
